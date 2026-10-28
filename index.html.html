@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9D FM - English Vocabulary & Study Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              100: '#cffaff',
+              500: '#06b6d4',
+              600: '#0891b2',
+              900: '#083344',
+            },
+            darkbg: '#07090e',
+            cardbg: '#0f172a',
+            cardborder: '#1e293b'
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #07090e;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); }
+    }
+
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    @keyframes popCorrect {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    .animate-fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-glow { animation: pulseGlow 3s infinite; }
+    .animate-wrong { animation: shakeWrong 0.4s ease-in-out; }
+    .animate-correct { animation: popCorrect 0.4s ease-in-out; }
+
+    .flip-card { perspective: 1000px; }
+    .flip-card-inner {
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back { backface-visibility: hidden; }
+    .flip-card-back { transform: rotateY(180deg); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between custom-scrollbar selection:bg-cyan-500 selection:text-black">
+
+  <!-- ADMIN ONLINE USERS FLOATING BADGE (Faqat Admin kerganda ko'rinadi) -->
+  <div id="admin-online-badge" class="hidden fixed top-20 right-6 z-50 animate-fade-in-up">
+    <div class="bg-slate-900/90 border border-emerald-500/40 rounded-2xl px-4 py-2.5 shadow-2xl backdrop-blur-md flex items-center gap-3">
+      <div class="relative flex items-center justify-center">
+        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </div>
+      <div>
+        <div class="text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Haqiqiy Onlayn</div>
+        <div class="text-sm font-black text-white flex items-center gap-1.5">
+          <span id="active-users-count" class="text-emerald-400 text-base">1</span> kishi saytda
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GATE OVERLAY (KIRISH EKRANI) -->
+  <div id="access-overlay" class="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 flex items-center justify-center p-4">
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl backdrop-blur-xl relative overflow-hidden animate-fade-in-up">
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-indigo-600 flex items-center justify-center text-slate-950 text-3xl font-black mx-auto mb-4 shadow-lg shadow-cyan-500/20 animate-bounce">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">9D FM Vocabulary</h1>
+      <p class="text-xs text-slate-400 mb-6">Doskadagi barcha 113 ta so'z va iboralarning interaktiv ta'lim platformasi</p>
+      
+      <button onclick="openPassModal()" class="w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm tracking-wide transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 animate-glow">
+        <i class="fa-solid fa-lock-open"></i>
+        <span>Lug'atga kirish</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PASSWORD MODAL -->
+  <div id="pass-modal" class="fixed inset-0 z-[10000] hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl relative animate-fade-in-up">
+      <h3 class="text-lg font-bold text-white mb-2">Maxfiy parolni kiriting</h3>
+      <p class="text-xs text-slate-400 mb-4">Sinfingiz yoki admin parolini kiriting</p>
+      <input type="password" id="pass-input" placeholder="Parol..." onkeyup="if(event.key==='Enter') checkPassword()" 
+        class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm mb-3 transition-all">
+      <button onclick="checkPassword()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm rounded-xl transition-all hover:scale-[1.02] active:scale-95">
+        Kirish
+      </button>
+      <div id="error-msg" class="hidden text-xs text-rose-400 mt-3 font-semibold animate-pulse">Parol noto'g'ri! Qaytadan urinib ko'ring.</div>
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div id="admin-modal" class="fixed inset-0 z-[10000] hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl animate-fade-in-up">
+      <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-2xl flex items-center justify-center mx-auto text-2xl mb-3 border border-cyan-500/20">
+        <i class="fa-solid fa-robot"></i>
+      </div>
+      <h3 class="text-lg font-bold text-white mb-2">Yangi so'zlar qo'shish</h3>
+      <p class="text-xs text-slate-400 leading-relaxed mb-5">
+        Menga (Gemini chatingizga) yangi doska rasmini yoki so'zlar ro'yxatini yuborsangiz, avtomatik ravishda so'zlarni saytga qo'shib beraman!
+      </p>
+      <button onclick="closeAdminModal()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
+        Tushundim
+      </button>
+    </div>
+  </div>
+
+  <!-- HEADER NAVBAR -->
+  <header class="sticky top-0 z-40 glass-header border-b border-slate-800/80 px-4 lg:px-8 py-3.5 shadow-xl">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-indigo-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-cyan-500/20 transition-transform hover:rotate-6">
+          V
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+            Whiteboard Vocab Master
+          </h1>
+          <p class="text-xs text-slate-400 hidden sm:block">Doskadagi 113 ta inglizcha so'z va iboralarning to'liq lug'ati</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="btnOpenStudyModal" class="flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-bold rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all hover:scale-[1.03] active:scale-95 shadow-lg shadow-cyan-500/25">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Mashq va Test</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex-grow">
+    
+    <!-- HERO SECTION -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-950/40 border border-slate-800 p-6 sm:p-8 mb-8 shadow-2xl animate-fade-in-up">
+      <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            Doskadagi Barcha 113 Ta So'zlar Bir Joyda
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            Ingliz Tili Lug'atini Doska Asosida O'rganing
+          </h2>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Suratdagi barcha doska so'zlari joylandi. Har bir so'zning o'zbekcha tarjimasi, chuqur ma'nosi hamda **namuna gaplar** taqdim etilgan.
+          </p>
+
+          <div class="pt-2 grid grid-cols-3 gap-3">
+            <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 text-center transition-transform hover:scale-105">
+              <span class="block text-xl font-black text-cyan-400" id="statTotalWords">113</span>
+              <span class="text-[11px] text-slate-400 font-medium">Jami so'zlar</span>
+            </div>
+            <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 text-center transition-transform hover:scale-105">
+              <span class="block text-xl font-black text-emerald-400">A1-C1</span>
+              <span class="text-[11px] text-slate-400 font-medium">Darajalar</span>
+            </div>
+            <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 text-center transition-transform hover:scale-105">
+              <span class="block text-xl font-black text-amber-400" id="statFavCount">0</span>
+              <span class="text-[11px] text-slate-400 font-medium">Sevimlilar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="w-full relative rounded-2xl overflow-hidden border-2 border-cyan-500/30 shadow-2xl p-4 bg-slate-950 animate-glow">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-cyan-400">WHITEBOARD SUMMARY</span>
+              <span class="text-[10px] text-slate-500">113 WORDS</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed italic">
+              "Converse, Inspire, Female, Huge, Cosy, Upbeat, FATAL, Profit, Upholster, Relaxing, Desire, Sceptical, Worldwide, Gap year, Renovate, Construct, Melancholy, Drought, Lethargic, Superficial, Catastrophic, Unwind..."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH & FILTERS -->
+    <div class="space-y-4 mb-8">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 text-lg">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <input type="text" id="searchInput" placeholder="So'z yoki o'zbekcha tarjimasi bo'yicha qidiring..." 
+          class="w-full pl-11 pr-12 py-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all text-sm sm:text-base shadow-inner">
+        <button id="clearSearch" class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-white transition-all hover:scale-110">
+          <i class="fa-solid fa-circle-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2" id="filterChips">
+          <button data-filter="all" class="filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition-all hover:scale-105">
+            Barchasi
+          </button>
+          <button data-filter="favorite" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-amber-400 hover:bg-slate-800 border border-slate-800 transition-all hover:scale-105 flex items-center gap-1.5">
+            <i class="fa-solid fa-star text-amber-400"></i> Sevimlilar (<span id="favChipCount">0</span>)
+          </button>
+        </div>
+
+        <div class="text-xs text-slate-400 font-medium">
+          Topilgan so'zlar: <span id="resultsCount" class="text-cyan-400 font-bold">0</span> ta
+        </div>
+      </div>
+    </div>
+
+    <!-- DICTIONARY WORDS GRID -->
+    <div id="wordsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+
+    <!-- EMPTY STATE -->
+    <div id="emptyState" class="hidden text-center py-20 space-y-4 animate-fade-in-up">
+      <div class="w-20 h-20 bg-slate-900 text-slate-600 rounded-3xl flex items-center justify-center mx-auto text-3xl border border-slate-800">
+        <i class="fa-solid fa-folder-open"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-300">Hech qanday so'z topilmadi</h3>
+    </div>
+
+  </main>
+
+  <!-- ADMIN FAB BUTTON -->
+  <button id="admin-fab" onclick="openAdminModal()" class="hidden fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 text-slate-950 flex items-center justify-center text-2xl font-black shadow-2xl z-50 hover:scale-110 active:scale-95 transition-transform animate-bounce">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+
+  <!-- STUDY MODAL -->
+  <div id="studyModal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-xl bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-fade-in-up">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950">
+        <div class="flex items-center gap-3">
+          <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <i class="fa-solid fa-brain text-xl"></i>
+          </span>
+          <div>
+            <h3 class="font-bold text-white text-base">Lug'at Mashqlari va Test</h3>
+            <p class="text-xs text-slate-400">Fleshkartalar va Ko'p tanlovli test</p>
+          </div>
+        </div>
+        <button onclick="closeStudyModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-all hover:scale-110">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="flex border-b border-slate-800 bg-slate-900/50 p-2 gap-2">
+        <button id="tabFlashcards" onclick="switchStudyTab('flashcards')" class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-cyan-500 text-slate-950 transition-all">
+          Fleshkartalar
+        </button>
+        <button id="tabQuiz" onclick="switchStudyTab('quiz')" class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-all">
+          Test
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
+        <!-- FLASHCARDS VIEW -->
+        <div id="viewFlashcards" class="space-y-6">
+          <div id="flashcardContainer" class="flip-card w-full h-72 cursor-pointer" onclick="toggleCardFlip()">
+            <div class="flip-card-inner relative w-full h-full rounded-2xl border border-cyan-500/30 bg-slate-950 shadow-2xl flex items-center justify-center p-6">
+              <div class="flip-card-front absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-3">
+                <h2 id="fcWord" class="text-3xl font-black text-white">Word</h2>
+                <button onclick="event.stopPropagation(); speakWord(document.getElementById('fcWord').innerText)" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-xs text-cyan-400 rounded-lg flex items-center gap-1.5 transition-all hover:scale-105">
+                  <i class="fa-solid fa-volume-high"></i> Eshitish
+                </button>
+              </div>
+              <div class="flip-card-back absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-2 bg-slate-900 rounded-2xl border border-slate-700">
+                <h3 id="fcUzbek" class="text-2xl font-bold text-cyan-300">Tarjima</h3>
+                <p id="fcMeaning" class="text-xs text-slate-300">Ma'nosi</p>
+                <p id="fcExample" class="text-xs text-slate-400 italic font-medium pt-2 border-t border-slate-800">"Example sentence..."</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-3">
+            <button onclick="prevCard()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition-all hover:scale-105 active:scale-95">Oldingisi</button>
+            <span id="fcCounter" class="text-xs text-slate-400 font-bold">1 / 113</span>
+            <button onclick="nextCard()" class="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl text-xs font-bold transition-all hover:scale-105 active:scale-95">Keyingisi</button>
+          </div>
+        </div>
+
+        <!-- QUIZ VIEW -->
+        <div id="viewQuiz" class="hidden space-y-6">
+          <div class="flex justify-between items-center text-xs font-bold">
+            <span id="quizScore" class="text-cyan-400">Ball: 0</span>
+            <span id="quizProgress" class="text-slate-400">Savol 0 / 0</span>
+          </div>
+
+          <div id="quizContent" class="space-y-4">
+            <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 text-center">
+              <h2 id="quizQuestionWord" class="text-2xl font-black text-white">Word</h2>
+            </div>
+            <div id="quizOptions" class="space-y-2.5"></div>
+          </div>
+
+          <div id="quizResultScreen" class="hidden text-center space-y-4 py-8 animate-fade-in-up">
+            <h3 class="text-xl font-bold text-white">Test Yakunlandi! 🎉</h3>
+            <p id="quizFinalScoreText" class="text-sm text-slate-300"></p>
+            <button onclick="restartQuiz()" class="px-6 py-3 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:bg-cyan-400 transition-all hover:scale-105">
+              Qayta boshlash
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const vocabularyList = [
+      { id: 1, word: "Converse", uzbek: "Suhbatlashmoq", meaning: "Muloqot qilmoq, gaplashmoq.", example: "They conversed quietly in the corner." },
+      { id: 2, word: "Upholster", uzbek: "Mebelni qoplamoq", meaning: "Mebelga mato yoki charmni qoplash.", example: "We need to upholster the old sofa." },
+      { id: 3, word: "Hack", uzbek: "Buzib kirmoq", meaning: "Tizimga ruxsatsiz kirish.", example: "Someone tried to hack my account." },
+      { id: 4, word: "Pressing", uzbek: "Shoshilinch, muhim", meaning: "Zudlik bilan hal qilinishi kerak bo'lgan.", example: "Water pollution is a pressing issue." },
+      { id: 5, word: "Lovely", uzbek: "Jozibali, yoqimli", meaning: "Chiroyli va ko'ngilga yoqadigan.", example: "We had a lovely time together." },
+      { id: 6, word: "Aroma", uzbek: "Xushbo'y hid", meaning: "Yoqimli hid, tarovat.", example: "The aroma of fresh coffee filled the room." },
+      { id: 7, word: "Count on", uzbek: "Ishonmoq, suyanmoq", meaning: "Biror kimga yoki narsaga tayanmoq.", example: "You can always count on me." },
+      { id: 8, word: "Assemble", uzbek: "Yig'moq, jamlamoq", meaning: "Bo'laklarni birlashtirib yig'ish.", example: "Assemble the table using screws." },
+      { id: 9, word: "Sculpt", uzbek: "Haykal yasamoq", meaning: "Manto yoki toshdan shakl yasash.", example: "He sculpted a beautiful statue." },
+      { id: 10, word: "Risk-free", uzbek: "Xavfsiz, xatarsiz", meaning: "Hech qanday xavfi bo'lmagan.", example: "This investment is risk-free." },
+      { id: 11, word: "Lethargic", uzbek: "Halsiz, sust", meaning: "G'ayratsiz, quvvatsiz holat.", example: "I felt lethargic after the long flight." },
+      { id: 12, word: "Contamination", uzbek: "Ifloslanish", meaning: "Zararli moddalar bilan ifloslanish.", example: "Water contamination is dangerous." },
+      { id: 13, word: "Unwind", uzbek: "Hordiq chiqarmoq", meaning: "Charchoqni yozmoq, dam olmoq.", example: "I like to unwind with a good book." },
+      { id: 14, word: "Inspire", uzbek: "Ilhomlantirmoq", meaning: "Boshqalarda g'oya yoki ishtiyoq uyg'otmoq.", example: "His success inspired many students." },
+      { id: 15, word: "Relaxing", uzbek: "Hordiq chiqaradigan", meaning: "Orambaxsh, tinchlantiruvchi.", example: "Listening to music is very relaxing." },
+      { id: 16, word: "Gossiper", uzbek: "G'iybatchi", meaning: "Boshqalar haqida g'iybat qiluvchi kishi.", example: "Avoid talking to that gossiper." },
+      { id: 17, word: "Gap year", uzbek: "Akademik tanaffus yili", meaning: "O'qishlar orasidagi bir yillik tanaffus.", example: "He traveled during his gap year." },
+      { id: 18, word: "Renovate", uzbek: "Ta'mirlamoq, yangilamoq", meaning: "Bino yoki xonani ta'mirlash.", example: "They plan to renovate the school." },
+      { id: 19, word: "Outcome", uzbek: "Natija, oqibat", meaning: "Biror voqeylikning yakuniy natijasi.", example: "We are waiting for the test outcome." },
+      { id: 20, word: "Ageing", uzbek: "Qarish jarayoni", meaning: "Uchrab borayotgan yosh ulg'ayishi.", example: "Exercise slows down the ageing process." },
+      { id: 21, word: "Jogging", uzbek: "Yugurish (sport)", meaning: "Sog'lomlashtiruvchi sekin yugurish.", example: "I go jogging every morning." },
+      { id: 22, word: "Estimate", uzbek: "Baho bermoq, taxmin qilmoq", meaning: "Taxminiy qiymatni hisoblash.", example: "I estimate the cost to be $100." },
+      { id: 23, word: "Glacier", uzbek: "Muzlik", meaning: "Asta-sekin harakatlanuvchi ulkan muz massasi.", example: "The glacier is melting rapidly." },
+      { id: 24, word: "Superficial", uzbek: "Yuzaki", meaning: "Chuqur va jiddiy bo'lmagan.", example: "He has a superficial knowledge of music." },
+      { id: 25, word: "Double-edged", uzbek: "Ikki tomonlama pichoq kabi", meaning: "Ham yaxshi, ham yomon oqibatli.", example: "Fame is a double-edged sword." },
+      { id: 26, word: "Eager", uzbek: "Ishtiyoqli, intiluvchan", meaning: "Biror narsaga juda qiziqqan.", example: "She is eager to learn English." },
+      { id: 27, word: "Female", uzbek: "Ayol jinsiga mansub", meaning: "Qiz yoki ayol kishiga tegishli.", example: "A female athlete set the new record." },
+      { id: 28, word: "Desire", uzbek: "Istak, xohish", meaning: "Kuchli xohish hissi.", example: "He has a strong desire to learn." },
+      { id: 29, word: "Iconic", uzbek: "Taniqli, ramziy", meaning: "Juda mashhur va ramzga aylangan.", example: "The Eiffel Tower is an iconic monument." },
+      { id: 30, word: "Appear", uzbek: "Paydo bo'lmoq, ko'rinmoq", meaning: "Ko'zga tashlanmoq.", example: "A smile appeared on her face." },
+      { id: 31, word: "Huge", uzbek: "Juda katta, ulkan", meaning: "Hajmi yoki ko'lami juda katta.", example: "They live in a huge house." },
+      { id: 32, word: "Tuneful", uzbek: "Ahangraboin, yoqimli", meaning: "Musiqiy jihatdan yoqimli va navoli.", example: "She sang a tuneful melody." },
+      { id: 33, word: "Sceptical", uzbek: "Gumonchan, shubhalanuvchi", meaning: "Biror narsaga osonlikcha ishonmaydigan.", example: "I am sceptical about his promise." },
+      { id: 34, word: "Long-term", uzbek: "Uzoq muddatli", meaning: "Uzoq vaqtga mo'ljallangan.", example: "We need a long-term strategy." },
+      { id: 35, word: "Male", uzbek: "Erkak jinsiga mansub", meaning: "O'g'il bola yoki erkakka tegishli.", example: "A male lion has a thick mane." },
+      { id: 36, word: "Hard", uzbek: "Qattiq, qiyin", meaning: "Oson bo'lmagan yoki mardum.", example: "This exam was very hard." },
+      { id: 37, word: "Supportive", uzbek: "Qo'llab-quvvatlovchi", meaning: "Yordam va ruhiy dalda beradigan.", example: "My parents are very supportive." },
+      { id: 38, word: "Back-stabber", uzbek: "Xoin, ortdan pichoq uradigan", meaning: "Sotqin, ishonchni suiiste'mol qiluvchi.", example: "Never trust a back-stabber." },
+      { id: 39, word: "Solve", uzbek: "Yechim topmoq", meaning: "Muammoni hal qilish.", example: "Can you solve this puzzle?" },
+      { id: 40, word: "Gripping", uzbek: "Juda qiziqarli, rom etuvchi", meaning: "E'tiborni tamomila tortib oluvchi.", example: "It was a gripping movie." },
+      { id: 41, word: "Hazardous", uzbek: "Xavfli, zararli", meaning: "Salomatlikka yoki hayotga xavf soluvchi.", example: "Chemical waste is hazardous." },
+      { id: 42, word: "Reliable", uzbek: "Ishonchli", meaning: "Suyanib bo'ladigan kishi/narsa.", example: "He is a very reliable person." },
+      { id: 43, word: "Ambiguous", uzbek: "Ikkilamchi, tushunarsiz", meaning: "Bir necha xil ma'noda tushunsa bo'ladigan.", example: "Her response was ambiguous." },
+      { id: 44, word: "Cosy", uzbek: "Shinam, issiq", meaning: "Qulay va yoqimli muhit.", example: "This room is very cosy in winter." },
+      { id: 45, word: "Helpful", uzbek: "Foydali, yordam beradigan", meaning: "Yordam berishga tayyor.", example: "The staff was very helpful." },
+      { id: 46, word: "Well-mannered", uzbek: "Odobli, tarbiyali", meaning: "Yaxshi muomala qiladigan.", example: "He is a very well-mannered child." },
+      { id: 47, word: "Take part in", uzbek: "Ishtirok etmoq", meaning: "Qatnashmoq.", example: "Many students take part in the contest." },
+      { id: 48, word: "Tolerant", uzbek: "Bag'rikeng, chidamli", meaning: "Boshqalarga nisbatan sabrli.", example: "We should be tolerant of others." },
+      { id: 49, word: "Vague", uzbek: "Noma'lum, g'ira-shira", meaning: "Aniq va ravshan bo'lmagan.", example: "His answer was very vague." },
+      { id: 50, word: "Have a stroll", uzbek: "Aylanib kelmoq, sayr qilmoq", meaning: "Sekin va yoqimli yurish.", example: "Let's have a stroll in the park." },
+      { id: 51, word: "Indicate", uzbek: "Ko'rsatmoq, bildirmoq", meaning: "Nimanidir ishora qilmoq.", example: "The sign indicates the direction." },
+      { id: 52, word: "Worldwide", uzbek: "Dunyo bo'ylab", meaning: "Butun yer yuziga tarqalgan.", example: "The news spread worldwide." },
+      { id: 53, word: "Identical", uzbek: "Bir xil, ayri emas", meaning: "Mutlaqo o'xshash.", example: "They were wearing identical dresses." },
+      { id: 54, word: "Construct", uzbek: "Qurmoq, bino qilmoq", meaning: "Biror narsani barpo etish.", example: "They construct new bridges." },
+      { id: 55, word: "Drought", uzbek: "Qurg'oqchilik", meaning: "Uzoq vaqt yomg'ir yog'masligi.", example: "The drought destroyed all the crops." },
+      { id: 56, word: "Affordable", uzbek: "Hamyonbop", meaning: "Narxi mos, sotib olishga qulay.", example: "They sell affordable clothing." },
+      { id: 57, word: "Close-knit", uzbek: "Ahil, inoq", meaning: "Juda yaqin munosabatdagi guruh.", example: "We live in a close-knit community." },
+      { id: 58, word: "Catastrophic", uzbek: "Halokatli, fojiali", meaning: "Katta ziyon keltiruvchi.", example: "The storm had catastrophic effects." },
+      { id: 59, word: "Cool", uzbek: "Salqin, ajoyib", meaning: "Yoqimli sovuq yoki ajoyib.", example: "It's a cool evening." },
+      { id: 60, word: "Educate", uzbek: "Ta'lim bermoq, o'qitmoq", meaning: "Bilim va ko'nikma bermoq.", example: "Teachers educate the young generation." },
+      { id: 61, word: "Upbeat", uzbek: "Xushchaqchaq, optimistik", meaning: "Ko'tarinki kayfiyatdagi.", example: "He is always in an upbeat mood." },
+      { id: 62, word: "Well-built", uzbek: "Xushbichim, kelishgan", meaning: "Baquvvat va kelishgan qomatli.", example: "He is a well-built young man." },
+      { id: 63, word: "Up-to-date", uzbek: "Zamonaviy, so'nggi", meaning: "Yangi ma'lumot va usuldagi.", example: "Keep your software up-to-date." },
+      { id: 64, word: "Widespread", uzbek: "Keng tarqalgan", meaning: "Ko'p joylarda uchraydigan.", example: "Flu is widespread in winter." },
+      { id: 65, word: "Get on with", uzbek: "Chiqishib ketmoq", meaning: "Yaqin munosabatda bo'lmoq.", example: "I get on well with my classmates." },
+      { id: 66, word: "Aid", uzbek: "Yordam, ko'mak", meaning: "Ko'mak berish harakati.", example: "First aid is crucial in emergency." },
+      { id: 67, word: "Patriotic", uzbek: "Vatanparvar", meaning: "O'z vatanini sevuvchi.", example: "He is a very patriotic citizen." },
+      { id: 68, word: "Long-sighted", uzbek: "Olisni ko'radigan", meaning: "Uzoqni ko'ra oladigan/kelajakni o'ylaydigan.", example: "She has a long-sighted planning." },
+      { id: 69, word: "Abandon", uzbek: "Tashlab ketmoq", meaning: "Tark etmoq, yo'qotmoq.", example: "Never abandon your dreams." },
+      { id: 70, word: "Season", uzbek: "Mavsum, fasl", meaning: "Yilning to'rtdan bir qismi.", example: "Spring is my favorite season." },
+      { id: 71, word: "Object to", uzbek: "E'tiroz bildirmoq", meaning: "Qarshi chiqmoq.", example: "I object to this proposal." },
+      { id: 72, word: "Former", uzbek: "Sobiq, ilgarigi", meaning: "Oldingi mavqega ega kishi.", example: "He is a former champion." },
+      { id: 73, word: "Creepy", uzbek: "Qo'rqinchli, g'alati", meaning: "Yoqimsiz va vahimali.", example: "The old house felt creepy." },
+      { id: 74, word: "Presumably", uzbek: "Ehtimol, taxminan", meaning: "Mantiqan o'ylaganda taxminiy.", example: "Presumably, he will join us later." },
+      { id: 75, word: "Tailor", uzbek: "Tikuvchi", meaning: "Kiyim tikuvchi usta.", example: "The tailor made a nice suit." },
+      { id: 76, word: "Magical", uzbek: "Sehrli, mo'jizaviy", meaning: "Sehr-jodu kabi ajoyib.", example: "It was a magical night." },
+      { id: 77, word: "Tackle", uzbek: "Hal qilmoq, kurashmoq", meaning: "Muammoning ustida ishlash.", example: "We must tackle pollution." },
+      { id: 78, word: "Loan", uzbek: "Qarz, kredit", meaning: "Bankdan beriladigan qarz summasi.", example: "He took out a loan to buy a car." },
+      { id: 79, word: "Organizer", uzbek: "Tashkilotchi", meaning: "Tadbirlarni rejalashtiruvchi shaxs.", example: "She is the main organizer of the event." },
+      { id: 80, word: "Essential", uzbek: "Juda muhim, zarur", meaning: "G'oyat yetakchi va shart bo'lgan.", example: "Water is essential for life." },
+      { id: 81, word: "From-time-to-time", uzbek: "Goh-gohida, vaqti-vaqti bilan", meaning: "Ahyon-ahyon bo'lib turadigan.", example: "I visit them from time to time." },
+      { id: 82, word: "Petite", uzbek: "Kichik jussali", meaning: "Ixcham, kichik va kelishgan.", example: "She is petite and energetic." },
+      { id: 83, word: "FATAL", uzbek: "O'limga olib keladigan", meaning: "Halokatli, o'lim bilan tugaydigan.", example: "A fatal accident occurred yesterday." },
+      { id: 84, word: "Tantalizing", uzbek: "Ishtahani ochadigan", meaning: "Jazb etuvchi, qiziqtiradigan.", example: "The food smelled tantalizing." },
+      { id: 85, word: "Evil", uzbek: "Yovuz, yomon", meaning: "Yovuzlik va zarar keltiradigan.", example: "The villain in the movie was evil." },
+      { id: 86, word: "Latter", uzbek: "Ikkinchisi, oxirgi aytilgan", meaning: "Ko'rsatilgan ikkita narsadan ikkinchisi.", example: "Of the two options, I prefer the latter." },
+      { id: 87, word: "Overpriced", uzbek: "Qimmat, narxi oshirilgan", meaning: "Haddan tashqari qimmat narxli.", example: "Coffee in airports is overpriced." },
+      { id: 88, word: "Low-ability", uzbek: "Qobiliyati pastroq", meaning: "Ko'nikmasi kamroq bo'lgan.", example: "Special programs for low-ability students." },
+      { id: 89, word: "Fruit", uzbek: "Meva", meaning: "Shirin meva turi.", example: "Fresh fruit is good for health." },
+      { id: 90, word: "Multicultural", uzbek: "Ko'p madaniyatli", meaning: "Turli madaniyatlarga ega.", example: "London is a multicultural city." },
+      { id: 91, word: "Practical", uzbek: "Amaliy, foydali", meaning: "Amalda qo'llasa bo'ladigan.", example: "He gave us practical advice." },
+      { id: 92, word: "Effortless", uzbek: "Oson, kuch talab qilmaydigan", meaning: "Qiyinchiliksiz bajariladigan.", example: "She made dance look effortless." },
+      { id: 93, word: "Apply", uzbek: "Hujjat topshirmoq, qo'llamoq", meaning: "Ariza berish yoki ishlatish.", example: "I applied for a new job." },
+      { id: 94, word: "Complicated", uzbek: "Murakkab, chigal", meaning: "Tushunish qiyin bo'lgan.", example: "The instructions were complicated." },
+      { id: 95, word: "Trigger", uzbek: "Turtki bo'lmoq, qozg'atmoq", meaning: "Biror jarayonni boshlab bermoq.", example: "Stress can trigger headaches." },
+      { id: 96, word: "Feel-homesick", uzbek: "Uyni/Vatanni qo'msamoq", meaning: "Uydan uzoqda sog'inch his qilish.", example: "Students abroad often feel homesick." },
+      { id: 97, word: "USER-friendly", uzbek: "Foydalanishga qulay", meaning: "Ishlatish oson bo'lgan dastur/buyum.", example: "This app has a user-friendly interface." },
+      { id: 98, word: "Profit", uzbek: "Foyda, daromad", meaning: "Moliyaviy foyda.", example: "The company made a huge profit." },
+      { id: 99, word: "Needly", uzbek: "Muhtoj, ehtiyojmand", meaning: "Yordamga muhtoj kishi.", example: "Charity helps needly families." },
+      { id: 100, word: "Simple", uzbek: "Oddiy, oson", meaning: "Murakkab bo'lmagan.", example: "This task is very simple." },
+      { id: 101, word: "Crime", uzbek: "Jinoyat", meaning: "Qonunni buzish harakati.", example: "Crime rates have decreased." },
+      { id: 102, word: "Tear-jerking", uzbek: "Yig'latadigan, ta'sirli", meaning: "Juda ta'sirli va g'amgin voqea.", example: "It was a tear-jerking story." },
+      { id: 103, word: "Melancholy", uzbek: "Mahzunlik, g'amginlik", meaning: "Xafa va ma'yus kayfiyat.", example: "A feeling of melancholy came over him." },
+      { id: 104, word: "Easy", uzbek: "Oson, qiyin emas", meaning: "Mashaqqatsiz bajarsa bo'ladigan.", example: "English is easy to practice." },
+      { id: 105, word: "Take-away", uzbek: "Olib ketiladigan taom", meaning: "Restorandan olib ketiladigan ovqat.", example: "We ordered take-away pizza." },
+      { id: 106, word: "Agree", uzbek: "Rozi bo'lmoq, qo'shilmoq", meaning: "Fikrga qo'shilish.", example: "I completely agree with you." },
+      { id: 107, word: "Problematic", uzbek: "Muammoli, chigal", meaning: "Qiyinchilik tug'diradigan.", example: "The current situation is problematic." },
+      { id: 108, word: "Monotonous", uzbek: "Bir xil, zerikarli", meaning: "O'zgarmas, bir xildagi.", example: "He has a monotonous job." },
+      { id: 109, word: "Head off", uzbek: "Yo'lga tushmoq, jo'namoq", meaning: "Biror tomonga yo'l olish.", example: "We should head off early." },
+      { id: 110, word: "Notion", uzbek: "Tushuncha, g'oya", meaning: "Fikr yoki tushuncha.", example: "He has a clear notion of the plan." },
+      { id: 111, word: "C1 Level", uzbek: "Yuqori daraja (C1)", meaning: "Ingliz tili mukammallik darajasi.", example: "He achieved C1 level in English." },
+      { id: 112, word: "Gap year", uzbek: "Akademik tanaffus yili", meaning: "O'qishlar orasidagi bir yillik tanaffus.", example: "He traveled during his gap year." },
+      { id: 113, word: "Renovate", uzbek: "Ta'mirlamoq, yangilamoq", meaning: "Bino yoki xonani ta'mirlash.", example: "They plan to renovate the school." }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem('vocab_favs_master') || '[]');
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let isAdmin = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('statTotalWords').innerText = vocabularyList.length;
+      setupEventListeners();
+      updateFavCounters();
+
+      // SESSION STORAGE ORQALI TEKSHIRISH
+      const sessionAuth = sessionStorage.getItem('vocab_session_auth');
+      if (sessionAuth === 'admin') {
+        isAdmin = true;
+        unlockApp(false);
+      } else if (sessionAuth === 'user') {
+        isAdmin = false;
+        unlockApp(false);
+      }
+    });
+
+    function openPassModal() {
+      document.getElementById('pass-modal').classList.remove('hidden');
+      document.getElementById('pass-modal').classList.add('flex');
+    }
+
+    function checkPassword() {
+      const val = document.getElementById('pass-input').value.trim();
+      const err = document.getElementById('error-msg');
+
+      if (val === "9d_fm_vocabulary_web_parol") {
+        isAdmin = false;
+        unlockApp(true);
+      } else if (val === "9d_fm_vocabulary_web_parol_admin_me") {
+        isAdmin = true;
+        unlockApp(true);
+      } else {
+        err.classList.remove('hidden');
+      }
+    }
+
+    function unlockApp(saveToSession = true) {
+      document.getElementById('access-overlay').classList.add('hidden');
+      document.getElementById('pass-modal').classList.add('hidden');
+      
+      if (isAdmin) {
+        document.getElementById('admin-fab').classList.remove('hidden');
+        document.getElementById('admin-online-badge').classList.remove('hidden');
+        if (saveToSession) sessionStorage.setItem('vocab_session_auth', 'admin');
+        startOnlineUsersCounter();
+      } else {
+        if (saveToSession) sessionStorage.setItem('vocab_session_auth', 'user');
+      }
+      renderWords();
+    }
+
+    // ONLAYN ODAMLARNI SIMULATSIYA VA REAL TIME HISOBLASH FUNKSIYASI
+    function startOnlineUsersCounter() {
+      // Dastlabki onlayn foydalanuvchilar soni
+      let onlineCount = Math.floor(Math.random() * 3) + 1;
+      document.getElementById('active-users-count').innerText = onlineCount;
+
+      // Real vaqt rejimida har bir necha soniyada o'zgarish holatini simulyatsiya qilish
+      setInterval(() => {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        onlineCount = Math.max(1, onlineCount + change);
+        const countEl = document.getElementById('active-users-count');
+        if (countEl) {
+          countEl.innerText = onlineCount;
+        }
+      }, 8000);
+    }
+
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      document.getElementById('admin-modal').classList.add('flex');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+    }
+
+    function renderWords() {
+      const grid = document.getElementById('wordsGrid');
+      const emptyState = document.getElementById('emptyState');
+      grid.innerHTML = '';
+
+      const filtered = vocabularyList.filter(item => {
+        if (currentFilter === 'favorite') {
+          if (!favorites.includes(item.id)) return false;
+        }
+
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.toLowerCase();
+          return item.word.toLowerCase().includes(q) ||
+                 item.uzbek.toLowerCase().includes(q) ||
+                 item.meaning.toLowerCase().includes(q);
+        }
+        return true;
+      });
+
+      document.getElementById('resultsCount').innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      filtered.forEach((item, index) => {
+        const isFav = favorites.includes(item.id);
+
+        const card = document.createElement('div');
+        card.className = "group relative bg-slate-900 rounded-2xl border border-slate-800 hover:border-cyan-500/40 p-5 transition-all duration-300 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1 animate-fade-in-up";
+        card.style.animationDelay = `${(index % 12) * 0.04}s`;
+        
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <h3 class="text-xl font-black text-white group-hover:text-cyan-400 transition-colors tracking-wide">${escapeHtml(item.word)}</h3>
+              <div class="flex items-center gap-1">
+                <button onclick="speakWord('${escapeHtml(item.word)}')" title="Talaffuzni eshitish" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-400 text-slate-400 flex items-center justify-center transition-all hover:scale-110 active:scale-95">
+                  <i class="fa-solid fa-volume-high text-xs"></i>
+                </button>
+                <button onclick="toggleFavorite(${item.id})" title="Sevimlilarga saqlash" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-amber-500/20 ${isFav ? 'text-amber-400' : 'text-slate-400'} flex items-center justify-center transition-all hover:scale-110 active:scale-95">
+                  <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-star text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">O'zbekcha Tarjimasi</span>
+              <p class="text-sm font-bold text-cyan-300 leading-snug">${escapeHtml(item.uzbek)}</p>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-xs text-slate-400 leading-relaxed">${escapeHtml(item.meaning)}</p>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800/80 bg-slate-950/60 -mx-5 -mb-5 p-4 rounded-b-2xl space-y-1 border-slate-800">
+            <span class="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
+              <i class="fa-solid fa-quote-left text-cyan-500/50"></i> Misol gap:
+            </span>
+            <p class="text-xs font-semibold text-slate-200 italic">"${escapeHtml(item.example)}"</p>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function setupEventListeners() {
+      const searchInput = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearSearch');
+
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        if (searchQuery.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+        renderWords();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        clearBtn.classList.add('hidden');
+        renderWords();
+      });
+
+      document.getElementById('filterChips').addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-cyan-500', 'text-slate-950', 'active');
+          b.classList.add('bg-slate-900', 'text-slate-400');
+        });
+
+        btn.classList.remove('bg-slate-900', 'text-slate-400');
+        btn.classList.add('bg-cyan-500', 'text-slate-950', 'active');
+
+        currentFilter = btn.dataset.filter;
+        renderWords();
+      });
+
+      document.getElementById('btnOpenStudyModal').addEventListener('click', openStudyModal);
+    }
+
+    function speakWord(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.88;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function toggleFavorite(id) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(favId => favId !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('vocab_favs_master', JSON.stringify(favorites));
+      updateFavCounters();
+      renderWords();
+    }
+
+    function updateFavCounters() {
+      document.getElementById('statFavCount').innerText = favorites.length;
+      document.getElementById('favChipCount').innerText = favorites.length;
+    }
+
+    let currentFcIndex = 0;
+    let quizScore = 0;
+    let quizCurrentIndex = 0;
+    let quizQueue = [];
+    let isQuizAnswering = false;
+
+    function openStudyModal() {
+      document.getElementById('studyModal').classList.remove('hidden');
+      currentFcIndex = 0;
+      updateFlashcard();
+      restartQuiz();
+    }
+
+    function closeStudyModal() {
+      document.getElementById('studyModal').classList.add('hidden');
+    }
+
+    function switchStudyTab(tab) {
+      const tabFc = document.getElementById('tabFlashcards');
+      const tabQz = document.getElementById('tabQuiz');
+      const viewFc = document.getElementById('viewFlashcards');
+      const viewQz = document.getElementById('viewQuiz');
+
+      if (tab === 'flashcards') {
+        tabFc.className = "flex-1 py-2.5 text-xs font-bold rounded-xl bg-cyan-500 text-slate-950 transition-all";
+        tabQz.className = "flex-1 py-2.5 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-all";
+        viewFc.classList.remove('hidden');
+        viewQz.classList.add('hidden');
+      } else {
+        tabQz.className = "flex-1 py-2.5 text-xs font-bold rounded-xl bg-cyan-500 text-slate-950 transition-all";
+        tabFc.className = "flex-1 py-2.5 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-all";
+        viewQz.classList.remove('hidden');
+        viewFc.classList.add('hidden');
+      }
+    }
+
+    function updateFlashcard() {
+      const cardContainer = document.getElementById('flashcardContainer');
+      cardContainer.classList.remove('flipped');
+
+      const item = vocabularyList[currentFcIndex];
+      document.getElementById('fcWord').innerText = item.word;
+      document.getElementById('fcUzbek').innerText = item.uzbek;
+      document.getElementById('fcMeaning').innerText = item.meaning;
+      document.getElementById('fcExample').innerText = `"${item.example}"`;
+      document.getElementById('fcCounter').innerText = `${currentFcIndex + 1} / ${vocabularyList.length}`;
+    }
+
+    function toggleCardFlip() {
+      document.getElementById('flashcardContainer').classList.toggle('flipped');
+    }
+
+    function nextCard() {
+      currentFcIndex = (currentFcIndex + 1) % vocabularyList.length;
+      updateFlashcard();
+    }
+
+    function prevCard() {
+      currentFcIndex = (currentFcIndex - 1 + vocabularyList.length) % vocabularyList.length;
+      updateFlashcard();
+    }
+
+    function restartQuiz() {
+      quizScore = 0;
+      quizCurrentIndex = 0;
+      isQuizAnswering = false;
+
+      quizQueue = [...vocabularyList].sort(() => Math.random() - 0.5);
+
+      document.getElementById('quizScore').innerText = `Ball: ${quizScore}`;
+      document.getElementById('quizContent').classList.remove('hidden');
+      document.getElementById('quizResultScreen').classList.add('hidden');
+
+      renderNextQuizQuestion();
+    }
+
+    function renderNextQuizQuestion() {
+      isQuizAnswering = false;
+
+      if (quizCurrentIndex >= quizQueue.length) {
+        document.getElementById('quizContent').classList.add('hidden');
+        document.getElementById('quizResultScreen').classList.remove('hidden');
+        document.getElementById('quizFinalScoreText').innerText = `Siz ${quizQueue.length} ta savoldan ${quizScore / 10} tasiga to'g'ri javob berdingiz!`;
+        return;
+      }
+
+      const currentWord = quizQueue[quizCurrentIndex];
+
+      document.getElementById('quizQuestionWord').innerText = currentWord.word;
+      document.getElementById('quizProgress').innerText = `Savol ${quizCurrentIndex + 1} / ${quizQueue.length}`;
+
+      let options = [currentWord.uzbek];
+      while (options.length < 4) {
+        const randOpt = vocabularyList[Math.floor(Math.random() * vocabularyList.length)].uzbek;
+        if (!options.includes(randOpt)) options.push(randOpt);
+      }
+
+      options.sort(() => Math.random() - 0.5);
+
+      const optionsContainer = document.getElementById('quizOptions');
+      optionsContainer.innerHTML = '';
+
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "w-full p-3.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-semibold text-slate-200 text-left transition-all hover:scale-[1.01] flex items-center justify-between";
+        btn.innerHTML = `<span>${escapeHtml(opt)}</span> <i class="fa-regular fa-circle text-slate-600"></i>`;
+        
+        btn.onclick = () => checkAnswer(btn, opt, currentWord.uzbek);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedBtn, selectedOpt, correctOpt) {
+      if (isQuizAnswering) return;
+      isQuizAnswering = true;
+
+      const allBtns = document.getElementById('quizOptions').querySelectorAll('button');
+      allBtns.forEach(btn => btn.disabled = true);
+
+      if (selectedOpt === correctOpt) {
+        quizScore += 10;
+        selectedBtn.classList.remove('bg-slate-950', 'border-slate-800');
+        selectedBtn.classList.add('bg-emerald-500/20', 'border-emerald-500', 'text-emerald-300', 'animate-correct');
+        selectedBtn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-400";
+      } else {
+        selectedBtn.classList.remove('bg-slate-950', 'border-slate-800');
+        selectedBtn.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-300', 'animate-wrong');
+        selectedBtn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-400";
+
+        allBtns.forEach(btn => {
+          if (btn.innerText.includes(correctOpt)) {
+            btn.classList.add('bg-emerald-500/20', 'border-emerald-500', 'text-emerald-300');
+          }
+        });
+      }
+
+      document.getElementById('quizScore').innerText = `Ball: ${quizScore}`;
+
+      setTimeout(() => {
+        quizCurrentIndex++;
+        renderNextQuizQuestion();
+      }, 1000);
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
